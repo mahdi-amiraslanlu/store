@@ -1,14 +1,11 @@
 from django.urls import path , include
 
-from . import views
-from rest_framework.routers import DefaultRouter
-
-router = DefaultRouter()
-router.register('', views.CustomerViewSet)
-
+from .views import CustomerView ,GetTokenView
 
 urlpatterns = [
 
-    path('Customer/',include(router.urls))
-
+    path('Get-Token/' ,GetTokenView.as_view() ),
+    path('Customer/' ,CustomerView.as_view() ),
 ]
+
+

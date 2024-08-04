@@ -6,3 +6,5 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = "__all__" 
 
+
+
