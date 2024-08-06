@@ -4,7 +4,7 @@ from . import models
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['shipment','payment','customer','order_date','total_price']
+    list_display = ['shipment','payment','customer','jorder_date','total_price']
     list_display_links = ("shipment","payment","customer")
     search_fields=['customer']
 
