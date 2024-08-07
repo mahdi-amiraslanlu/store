@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'apps.products.apps.ProductsConfig',
     'apps.users.apps.UsersConfig',
     'extentions',
+
     #'rest_framework.authtoken',
 
 ]
@@ -71,6 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'store.wsgi.application'
 
+AUTH_USER_MODEL = "users.CustomerUser"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

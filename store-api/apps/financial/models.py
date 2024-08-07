@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-from apps.users.models import Customer
+from apps.users.models import CustomerUser
 from extentions.utils import jalali_convertor
 # Create your models here.
 
@@ -11,7 +11,7 @@ class Shipment(models.Model):
         verbose_name_plural = " حمل و نقل ها "
     
 
-    customer = models.ForeignKey(Customer ,on_delete=models.CASCADE,null=True , verbose_name="مشتری ها ")
+    customer = models.ForeignKey(CustomerUser ,on_delete=models.CASCADE,null=True , verbose_name="مشتری ها ")
     shipment_date = models.DateField(auto_now_add=True, verbose_name="زمان ارسال")
     address = models.CharField(max_length=100 , verbose_name="آدرس")
     city =  models.CharField(max_length=100 , verbose_name="شهر",null=True)
@@ -28,7 +28,7 @@ class Payment(models.Model):
         verbose_name = "پرداخت"
         verbose_name_plural = "  پرداختها "
 
-    customer = models.ForeignKey( Customer ,on_delete=models.CASCADE,null=True, verbose_name="مشتری ها ")
+    customer = models.ForeignKey( CustomerUser ,on_delete=models.CASCADE,null=True, verbose_name="مشتری ها ")
     payment_date = models.DateTimeField(default=timezone.now , verbose_name="زمان پرداخت")
     Payment_meto = models.CharField(max_length=100 , verbose_name="متد پرداختی",null=True,blank=True)
     amount = models.DecimalField(max_digits=10 , decimal_places=2 , verbose_name="مبلغ", blank=True,null=True)

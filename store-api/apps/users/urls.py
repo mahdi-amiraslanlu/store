@@ -4,12 +4,12 @@ from . import views
 from rest_framework.routers import DefaultRouter
 
 router= DefaultRouter()
-router.register('', views.CustomerViewSet)
+router.register('', views.CustomerUserViewSet)
 
 
 urlpatterns = [
 
-    path('Customer/',include(router.urls)),
+    path('customer/<user_id>',include(router.urls)),
 ]
 
 

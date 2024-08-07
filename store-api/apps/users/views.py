@@ -1,17 +1,28 @@
 
-from rest_framework import viewsets 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets  
 
-from .models import Customer
-from .serializers import CustomerSerializer
+from .models import CustomerUser
+from .serializers import CustomerUserSerializer
 # Create your views here.
 
 
-class CustomerViewSet(viewsets.ModelViewSet):
+
+class CustomerUserViewSet(viewsets.ModelViewSet):
+    serializer_class = CustomerUserSerializer
+
+    queryset = CustomerUser.objects.all()
+    def get_queryset(self):
+        user = self.request.user
+        return self.queryset.filter(user=user)
+
+
+
+
+#class CustomerViewSet(viewsets.ModelViewSet):
         
-    queryset = Customer.objects.filter()
-    serializer_class = CustomerSerializer
-    permission_classes = (IsAuthenticated,)
+#    queryset = Customer.objects.filter()
+#    serializer_class = CustomerSerializer
+#    permission_classes = (IsAuthenticated,)
 
 
 #class CustomerView(APIView):
