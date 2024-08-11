@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser 
 from django.contrib.auth.models import BaseUserManager
+
 # Create your models here.
 
 
@@ -26,16 +27,35 @@ class UserAccountManager(BaseUserManager):
 
 class CustomerUser(AbstractUser): 
 
-    name = models.CharField(max_length=200 , verbose_name="نام")
-    email = models.CharField(max_length=100,verbose_name="ایمیل" ,null=True , unique=True)
+    class Meta:
+        verbose_name_plural = " مدیریت ادمین "
+        verbose_name = "کاربر"
+
+    name = models.CharField(max_length=200 , verbose_name="نام" , null=True)
+    email = models.EmailField(verbose_name="ایمیل", unique=True )
+    password=models.CharField(max_length=100 ,verbose_name="رمز عبور")
+    adress=models.CharField(max_length=250 ,verbose_name="آدرس", blank=True,null=True )
+    phone_number=models.BigIntegerField(verbose_name="شماره تماس",null=True )
+    otp=models.CharField(max_length=6 , null=True , blank=True)
+
+    is_verified=models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-
+    username = None
     objects = UserAccountManager()
-
+    
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name"]
 
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app `app_label`?"
+        # Simplest possible answer: Yes, always
+        return True
 
     def __str__(self):
         return self.name
@@ -43,40 +63,24 @@ class CustomerUser(AbstractUser):
 
 
 
+class Customer(models.Model):
 
+    class Meta:
+        verbose_name_plural = "مشتری ها"
+        verbose_name = "مشتری"
 
-#c#lass Customer(models.Model):
-#    class Meta:
-#        verbose_name_plural = "مشتری ها"
-#        verbose_name = " مشتری"
+    customer = models.OneToOneField(CustomerUser , on_delete=models.CASCADE , verbose_name="مشتری",null=True)
+    name = models.CharField(max_length=200 , verbose_name="نام" , null=True)
+    email = models.EmailField(max_length=100,verbose_name="ایمیل", unique=True)
+    password=models.CharField(max_length=100 ,verbose_name="رمز عبور")
+    adress=models.CharField(max_length=250 ,verbose_name="آدرس", blank=True,null=True )
+    phone_number=models.BigIntegerField(verbose_name="شماره تماس",null=True )
+    username = None
 
- #   first_name = models.CharField(max_length=100 , verbose_name="نام")
- #   last_name = models.CharField(max_length=100 , verbose_name=" نام خانوادگی")
- #   email = models.CharField(max_length=100,verbose_name="ایمیل" ,null=True , unique=True)
- #   password=models.CharField(max_length=100 ,verbose_name="رمز عبور")
- #   adress=models.CharField(max_length=250 ,verbose_name="آدرس", blank=True,null=True )
- #   phone_number=models.BigIntegerField(verbose_name="شماره تماس",null=True , unique=True,
-                                        
- #                                       validators=[
- #                                           validators.RegexValidator(r'^989[0-3,9]\d{8}$',
- #                                                                     ('enter a valid mobile number. '),
- #                                           )
-#                                        ],
- #                                       error_messages={
- #                                           'unique':(" A user with this mobile number already exists."),
- #                                       }
- #                                       
- #                                       )
-#    is_staff=models.BooleanField(verbose_name="کاربر ادمین", default=True , 
-#                                  help_text=("Designates wether this user can log into this admin site .")
-#                                 )
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
-
-  #  def __str__(self):
-  #      return f'{self.first_name} {self.last_name}'
+    def __str__(self):
+        return self.name 
     
-
-
-
-
 

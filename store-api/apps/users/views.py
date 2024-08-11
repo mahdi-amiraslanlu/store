@@ -1,70 +1,55 @@
+from rest_framework.permissions import  IsAdminUser , IsAuthenticated ,AllowAny
+from apps.users.permissions import IsCustomer 
+from rest_framework import viewsets
+from .models import CustomerUser , Customer
+from .serializers import CustomerUserSerializer ,CustomerSerializer 
 
-from rest_framework import viewsets  
+from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
-from .models import CustomerUser
-from .serializers import CustomerUserSerializer
 # Create your views here.
 
-
-
 class CustomerUserViewSet(viewsets.ModelViewSet):
+    
+    permission_classes=(IsAdminUser,)
+    queryset = CustomerUser.objects.all()
     serializer_class = CustomerUserSerializer
 
-    queryset = CustomerUser.objects.all()
-    def get_queryset(self):
-        user = self.request.user
-        return self.queryset.filter(user=user)
+
+class CustomerViewSet(viewsets.ModelViewSet):
+    
+    permission_classes=(IsCustomer,IsAuthenticated )
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+
+class RegisteAPI(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self , request):
+        try:
+            data = request.data
+            serializer = CustomerUserSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({
+                    'status':200 ,
+                    'message' : "registration successfilly check email",
+                    'data' : serializer.data ,
+                })
+            
+            return Response({
+                'status' : 400 , 
+                'message': "something went wrong",
+                'data' : serializer.errors
+            })
+        except Exception as e :
+            print(e)
+
+            
 
 
 
-
-#class CustomerViewSet(viewsets.ModelViewSet):
-        
-#    queryset = Customer.objects.filter()
-#    serializer_class = CustomerSerializer
-#    permission_classes = (IsAuthenticated,)
-
-
-#class CustomerView(APIView):
-
-#    def post(self , request):
-#        email=request.data.get("email")
-
-#        if not email:
-#            return response(status=status.HTTP_400_BAD_REQUEST)
-        
-#        try:
-#            customer=Customer.objects.get(email=email)
-#            return response({'detail':'user already registerd!' } , 
-#                            status=status.HTTP_400_BAD_REQUEST)
-#        except Customer.DoesNotExist:
-#            costumer=Customer.object.create(email=email)
-
-        #Customer,created = Customer.oblect.get_or_create(email=email)
-
-#        code=random.randint(10000, 99999)
-
-        #save code in customer model 
-        #send massage email   with  api panel  or save in cash memory
-
-#        cache.set(int(email) , code, 2*60 )
-
-#        return response({'code' : code})
-
-
-#class GetTokenView(APIView):
-
-#    def get(self,request):
-#        email=request.data.get("email")
-#        code = request.data.get(code)
-
-#        cached_code = cache.get(int(email))
-
-#        if code != cached_code:
-#            return response(status=status.HTTP_403_FORBIDDEN)
-        
-#        token = str(uuid.uuid4())
-
-#        return response({'token' : token})
 
 

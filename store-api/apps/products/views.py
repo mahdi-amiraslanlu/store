@@ -1,30 +1,25 @@
-from django.shortcuts import render
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import request
+from rest_framework import generics , mixins
 
 from .models import Category,Product
 from .serializers import CategorySerializer,ProductSerializer
-
 # Create your views here.
 
-#region order viewset
+class CategoryApiView(mixins.ListModelMixin ,generics.GenericAPIView):
 
-class CategoryViewSet(viewsets.ModelViewSet):
-        
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = (IsAuthenticatedOrReadOnly ,)
 
-#endregion
+    def get(self , request:request):
+        return self.list(request)
+    
 
+class ProductApiView(mixins.ListModelMixin ,generics.GenericAPIView):
 
-#region order viewset
-
-class ProductViewSet(viewsets.ModelViewSet):
-        
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly ,)
 
-#endregion
+    def get(self , request:request):
+        return self.list(request)
+
 
