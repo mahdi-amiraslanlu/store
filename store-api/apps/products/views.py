@@ -3,6 +3,7 @@ from rest_framework import generics , mixins
 
 from .models import Category,Product
 from .serializers import CategorySerializer,ProductSerializer
+
 # Create your views here.
 
 class CategoryApiView(mixins.ListModelMixin ,generics.GenericAPIView):

@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'apps.products.apps.ProductsConfig',
     'apps.users.apps.UsersConfig',
     'extentions',
-
+    'django_filters',
     #'rest_framework.authtoken',
 
 ]
@@ -144,7 +144,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication' ,
         'rest_framework.authentication.SessionAuthentication' ,
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 SIMPLE_JWT = {

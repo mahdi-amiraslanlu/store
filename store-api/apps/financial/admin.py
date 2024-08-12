@@ -1,6 +1,5 @@
 from django.contrib import admin
 from . import models
-from extentions.utils import jalali_convertor
 # Register your models here.
 
 @admin.register(models.Shipment)

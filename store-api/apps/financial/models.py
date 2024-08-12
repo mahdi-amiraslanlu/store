@@ -20,7 +20,7 @@ class Shipment(models.Model):
     zip_code = models.IntegerField( verbose_name="کد",null=True)
 
     def __str__(self):
-        return self.customer.name
+        return self.customer.user
     
     
 class Payment(models.Model):
@@ -34,7 +34,7 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=10 , decimal_places=2 , verbose_name="مبلغ", blank=True,null=True)
     
     def __str__(self):
-        return self.customer.name
+        return self.customer.user
     
     def jpayment_date(self):
         return jalali_convertor(self.payment_date)

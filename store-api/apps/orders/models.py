@@ -18,7 +18,7 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=10 , decimal_places=2,verbose_name="قیمت کل" , null=True)
 
     def __str__(self):
-        return self.customer.name
+        return self.customer.user
     
     def jorder_date(self):
         return jalali_convertor(self.order_date)
@@ -59,7 +59,7 @@ class Cart(models.Model):
     quantity = models.IntegerField(verbose_name="تعداد",null=True)
 
     def __str__(self):
-        return self.customer.name
+        return self.customer.user
     
 
 

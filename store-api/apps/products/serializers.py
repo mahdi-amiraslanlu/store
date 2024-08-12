@@ -8,10 +8,15 @@ class CategorySerializer(serializers.ModelSerializer):
         
 
 
-class ProductSerializer(serializers.HyperlinkedModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
+    def get_category(self,obj):
+        return obj.category.name
 
-    category = CategorySerializer()
+    category = serializers.SerializerMethodField("get_category")
 
     class Meta:
         model = Product
-        fields =['category','sku','description','price','stock' , 'url']
+        fields ="__all__"
+
+
+
